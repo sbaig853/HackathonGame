@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkt3kgj3p3wbs"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_8rpqa"]
+[ext_resource type="Texture2D" uid="uid://ce300vd4bbrae" path="res://main graphica/player sprite/characterBackView-4.png.png" id="3_3are1"]
+[ext_resource type="Texture2D" uid="uid://bloruq3t143q1" path="res://main graphica/player sprite/characterBackView-1.png.png" id="3_o7ifc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rvnc"]
+size = Vector2(26, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sj7mg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_o7ifc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3are1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h1bfj"]
+polygon = PackedVector2Array(-9, -26, 13, -26, 13, -24, 15, -24, 15, -14, 17, -14, 17, 0, 31, 0, 31, 2, 41, 2, 41, 12, 31, 12, 31, 14, 11, 14, 11, 10, 0, 10, -1, 10, -1, 8, -9, 8, -9, -8, -3, -8, -3, -10, -9, -10)
+
+[node name="player" type="CharacterBody2D"]
+collision_mask = 14
+script = ExtResource("1_8rpqa")
+
+[node name="player" type="Sprite2D" parent="."]
+position = Vector2(17, -2)
+rotation = 1.5708
+texture = ExtResource("3_o7ifc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, -8)
+shape = SubResource("RectangleShape2D_8rvnc")
+
+[node name="shootTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="shootingPoints" type="Node2D" parent="."]
+position = Vector2(36, 7)
+
+[node name="Marker2D" type="Marker2D" parent="shootingPoints"]
+position = Vector2(4, -4)
+
+[node name="Marker2D2" type="Marker2D" parent="shootingPoints"]
+position = Vector2(4, -2)
+
+[node name="Marker2D3" type="Marker2D" parent="shootingPoints"]
+position = Vector2(4, 0)
+
+[node name="Marker2D4" type="Marker2D" parent="shootingPoints"]
+position = Vector2(4, 2)
+
+[node name="Marker2D5" type="Marker2D" parent="shootingPoints"]
+position = Vector2(4, 4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(17, -2)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_sj7mg")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_h1bfj")
+
+[connection signal="timeout" from="shootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

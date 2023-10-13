@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://deqsipmioaspn"]
+
+[ext_resource type="Texture2D" uid="uid://cnbdjgvy6cysu" path="res://graphics/projectiles/grenade.png" id="1_4tw3a"]
+[ext_resource type="Script" path="res://obj/tree.gd" id="1_rdigg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lgvqu"]
+radius = 77.0065
+
+[node name="tree" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1_rdigg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4tw3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lgvqu")

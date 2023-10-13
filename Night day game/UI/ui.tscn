@@ -1,0 +1,99 @@
+[gd_scene load_steps=8 format=3 uid="uid://cavtoyignhfdw"]
+
+[ext_resource type="Script" path="res://UI/ui.gd" id="1_01cka"]
+[ext_resource type="Texture2D" uid="uid://b46vqe46neon5" path="res://graphics/ui/progress_bar/bg.png" id="1_lt0o0"]
+[ext_resource type="Texture2D" uid="uid://b85l5ac1mou6" path="res://graphics/ui/progress_bar/over.png" id="2_owq4s"]
+[ext_resource type="Texture2D" uid="uid://bwqywi814acaq" path="res://graphics/ui/progress_bar/progress.png" id="3_v5apf"]
+
+[sub_resource type="Animation" id="Animation_ch2xq"]
+resource_name = "day night"
+length = 100.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/TextureProgressBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_geba0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/TextureProgressBar:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rrhkw"]
+_data = {
+"RESET": SubResource("Animation_geba0"),
+"day night": SubResource("Animation_ch2xq")
+}
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_01cka")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.375
+anchor_top = 0.02
+anchor_right = 0.625
+anchor_bottom = 0.057
+offset_left = 130.0
+offset_right = -130.0
+offset_bottom = 0.0999985
+grow_horizontal = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer"]
+layout_mode = 2
+value = 100.0
+texture_under = ExtResource("1_lt0o0")
+texture_over = ExtResource("2_owq4s")
+texture_progress = ExtResource("3_v5apf")
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer2"]
+layout_mode = 2
+value = 100.0
+texture_under = ExtResource("1_lt0o0")
+texture_over = ExtResource("2_owq4s")
+texture_progress = ExtResource("3_v5apf")
+
+[node name="day" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="night" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rrhkw")
+}
+
+[connection signal="timeout" from="day" to="." method="_on_day_timeout"]
+[connection signal="timeout" from="night" to="." method="_on_night_timeout"]
